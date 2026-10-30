@@ -1,0 +1,53 @@
+/* style.css — ค่าพื้นฐาน สี ปุ่ม และ modal ที่ใช้ร่วมกันทุกหน้าจอ */
+:root {
+  --navy-950: #050a1f;
+  --navy-900: #070d24;
+  --navy-700: #0f1c4d;
+  --blue-500: #2f6bff;
+  --cyan: #5ad1ff;
+  --ice: #d8f2ff;
+  --lavender: #b9a8ff;
+  --ok: #5be3b0;      /* ถูก  — ใช้คู่กับไอคอน ✓ เสมอ (ไม่พึ่งสีอย่างเดียว) */
+  --bad: #ff8aa8;     /* ผิด  — ใช้คู่กับไอคอน ✗ เสมอ */
+  --panel: rgba(8, 16, 48, 0.86);
+  --line: rgba(138, 210, 255, 0.45);
+  --font: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Tahoma, "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--navy-950); color: var(--ice); font-family: var(--font); -webkit-tap-highlight-color: transparent; }
+#app { position: fixed; inset: 0; height: 100dvh; overflow: hidden; user-select: none; -webkit-user-select: none; }
+.screen { position: absolute; inset: 0; display: none; overflow: hidden; }
+.screen.active { display: block; }
+[hidden] { display: none !important; }
+
+/* ---------- ปุ่ม ---------- */
+.btn {
+  font: inherit; font-weight: 600; color: var(--ice); cursor: pointer;
+  background: rgba(15, 28, 77, 0.78); border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 22px; min-height: 44px; transition: background .15s, transform .15s, border-color .15s;
+}
+.btn:hover:not(:disabled) { background: rgba(47, 107, 255, 0.45); border-color: var(--cyan); transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:focus-visible, input:focus-visible { outline: 3px solid var(--lavender); outline-offset: 2px; }
+.btn:disabled { opacity: .4; cursor: not-allowed; border-style: dashed; }
+.btn-primary { background: linear-gradient(135deg, #2f6bff, #5a8bff); border-color: var(--cyan); color: #fff; }
+.btn-sm { padding: 6px 12px; min-height: 36px; font-size: 14px; border-radius: 8px; }
+.btn[aria-pressed="true"], .btn.active { background: var(--cyan); color: var(--navy-900); border-color: #fff; }
+
+/* ---------- Modal ---------- */
+.modal { position: absolute; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 12px; background: rgba(3, 6, 20, 0.72); }
+.modal-card { width: min(520px, 100%); max-height: 100%; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); }
+.modal-card.wide { width: min(760px, 100%); }
+.modal-card.narrow { width: min(340px, 100%); }
+.modal-card h2 { font-size: 22px; margin-bottom: 14px; }
+.modal-card p { line-height: 1.7; margin-bottom: 8px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(138, 210, 255, .18); }
+.row input[type=range] { width: 46%; accent-color: var(--cyan); }
+.row input[type=checkbox] { width: 24px; height: 24px; accent-color: var(--cyan); }
+.row b { color: var(--cyan); margin-left: 6px; }
+
+#toast { position: absolute; z-index: 80; left: 50%; top: 14px; transform: translateX(-50%); max-width: calc(100% - 24px); background: var(--cyan); color: var(--navy-900); font-weight: 700; padding: 10px 18px; border-radius: 999px; box-shadow: 0 6px 20px rgba(0,0,0,.4); text-align: center; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

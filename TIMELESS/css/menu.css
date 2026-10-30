@@ -1,0 +1,27 @@
+/* menu.css — หน้า Main Menu: วงแหวนพอร์ทัลเวลา (CSS ล้วน ไม่ต้องมีไฟล์ภาพ) */
+#screen-menu {
+  background:
+    radial-gradient(ellipse at 72% 45%, rgba(90, 209, 255, .22), transparent 55%),
+    radial-gradient(ellipse at 20% 90%, rgba(185, 168, 255, .18), transparent 50%),
+    linear-gradient(160deg, #050a1f 0%, #0f1c4d 55%, #1a1450 100%);
+}
+.portal { position: absolute; right: 8%; top: 50%; width: min(62vmin, 560px); aspect-ratio: 1; transform: translateY(-50%); }
+.portal i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(90, 209, 255, .55); }
+.portal i:nth-child(1) { box-shadow: 0 0 60px rgba(90, 209, 255, .35), inset 0 0 60px rgba(90, 209, 255, .2); }
+.portal i:nth-child(2) { inset: 9%; border: 10px dotted rgba(185, 168, 255, .5); animation: spin 60s linear infinite; }
+.portal i:nth-child(3) { inset: 22%; border-color: rgba(216, 242, 255, .7); border-width: 1px; background: repeating-conic-gradient(from 0deg, rgba(90,209,255,.25) 0 1deg, transparent 1deg 15deg); animation: spin 90s linear infinite reverse; }
+.portal i:nth-child(4) { inset: 40%; border: 0; background: radial-gradient(circle, #d8f2ff 0%, rgba(90, 209, 255, .6) 35%, transparent 70%); animation: pulse 4s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 50% { transform: scale(1.25); opacity: .7; } }
+
+.menu-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 9vw; max-width: 640px; }
+.logo { font-size: clamp(44px, 10vw, 104px); font-weight: 800; letter-spacing: .12em; line-height: 1; background: linear-gradient(180deg, #ffffff, #7fd8ff 70%, #5a8bff); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 22px rgba(90, 209, 255, .45)); }
+.logo-th { font-size: clamp(18px, 3vw, 28px); margin: 10px 0 32px; letter-spacing: .3em; color: var(--lavender); }
+.menu-list { display: flex; flex-direction: column; gap: 12px; width: min(280px, 100%); }
+.menu-list .btn { text-align: left; padding-left: 24px; }
+
+@media (max-width: 700px) {
+  .portal { right: 50%; transform: translate(50%, -50%); opacity: .45; }
+  .menu-inner { align-items: center; text-align: center; padding: 0 20px; max-width: none; }
+  .menu-list .btn { text-align: center; padding-left: 22px; }
+}

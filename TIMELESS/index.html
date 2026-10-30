@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TIMELESS — บันทึกข้ามกาลเวลา</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== Main Menu ===== -->
+  <section id="screen-menu" class="screen active">
+    <div class="portal" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="menu-inner">
+      <h1 class="logo">TIMELESS</h1>
+      <p class="logo-th">บันทึกข้ามกาลเวลา</p>
+      <nav class="menu-list" aria-label="เมนูหลัก">
+        <button class="btn btn-primary" id="btn-new">New Game</button>
+        <button class="btn" id="btn-continue">Continue</button>
+        <button class="btn" id="btn-settings">Settings</button>
+        <button class="btn" id="btn-credits">Credits</button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ===== Game ===== -->
+  <section id="screen-game" class="screen">
+    <div class="bg-layer" id="bgA"></div>
+    <div class="bg-layer" id="bgB"></div>
+    <div id="characters"></div>
+
+    <div id="hud">
+      <button class="btn btn-sm" id="hud-auto" aria-pressed="false">Auto</button>
+      <button class="btn btn-sm" id="hud-skip" aria-pressed="false">Skip</button>
+      <button class="btn btn-sm" id="hud-log">Backlog</button>
+      <button class="btn btn-sm" id="hud-save">Save</button>
+      <button class="btn btn-sm" id="hud-load">Load</button>
+      <button class="btn btn-sm" id="hud-menu">Menu</button>
+    </div>
+
+    <div id="choices" hidden></div>
+
+    <div id="dialogue" hidden>
+      <div id="nameplate" hidden></div>
+      <p id="dialogue-text"></p>
+      <span id="next-hint" aria-hidden="true">▼</span>
+    </div>
+
+    <div id="quiz" hidden></div>
+    <div id="ending" hidden></div>
+  </section>
+
+  <!-- ===== Modals ===== -->
+  <div class="modal" id="modal-settings" hidden>
+    <div class="modal-card" role="dialog" aria-label="Settings">
+      <h2>Settings</h2>
+      <label class="row"><span>เปิดเสียง</span><input type="checkbox" id="set-soundOn"></label>
+      <label class="row"><span>ระดับเสียง <b id="val-volume"></b></span><input type="range" id="set-volume" min="0" max="100" step="5"></label>
+      <label class="row"><span>ความเร็วข้อความ <b id="val-textSpeed"></b></span><input type="range" id="set-textSpeed" min="1" max="5" step="1"></label>
+      <label class="row"><span>เปิดใช้ Auto Mode</span><input type="checkbox" id="set-autoEnabled"></label>
+      <label class="row"><span>ความเร็ว Auto <b id="val-autoSpeed"></b></span><input type="range" id="set-autoSpeed" min="1" max="5" step="1"></label>
+      <label class="row"><span>เอฟเฟกต์เปลี่ยนฉาก</span><input type="checkbox" id="set-transitions"></label>
+      <div class="modal-actions"><button class="btn btn-primary" data-close>ปิด</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-saves" hidden>
+    <div class="modal-card" role="dialog" aria-label="Save / Load">
+      <h2 id="saves-title">Save</h2>
+      <div id="saves-list"></div>
+      <div class="modal-actions"><button class="btn" data-close>ปิด</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-backlog" hidden>
+    <div class="modal-card wide" role="dialog" aria-label="Backlog">
+      <h2>Backlog</h2>
+      <div id="backlog-list"></div>
+      <div class="modal-actions"><button class="btn btn-primary" data-close>ปิด</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-credits" hidden>
+    <div class="modal-card" role="dialog" aria-label="Credits">
+      <h2>Credits</h2>
+      <p>TIMELESS — บันทึกข้ามกาลเวลา</p>
+      <p>Visual Novel Engine สำหรับการเรียนรู้ (HTML5 + CSS3 + Vanilla JavaScript)</p>
+      <p>แก้ชื่อผู้จัดทำได้ในไฟล์ index.html (ส่วน modal-credits)</p>
+      <div class="modal-actions"><button class="btn btn-primary" data-close>ปิด</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-pause" hidden>
+    <div class="modal-card narrow" role="dialog" aria-label="Menu">
+      <h2>Menu</h2>
+      <div class="stack">
+        <button class="btn btn-primary" data-close>เล่นต่อ</button>
+        <button class="btn" id="pause-save">Save</button>
+        <button class="btn" id="pause-load">Load</button>
+        <button class="btn" id="pause-settings">Settings</button>
+        <button class="btn" id="pause-home">กลับ Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-subjects" hidden>
+    <div class="modal-card" role="dialog" aria-label="เลือกวิชา">
+      <h2>เลือกวิชา</h2>
+      <div id="subjects-list" class="stack"></div>
+      <div class="modal-actions"><button class="btn" data-close>ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-error" hidden>
+    <div class="modal-card" role="alertdialog" aria-label="เกิดข้อผิดพลาด">
+      <h2>เกิดข้อผิดพลาด</h2>
+      <p id="error-text"></p>
+      <div class="modal-actions"><button class="btn btn-primary" id="error-home">กลับ Main Menu</button></div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</div>
+
+<!-- ลำดับการโหลดสำคัญ: ข้อมูลและโมดูลย่อยก่อน แล้ว engine และ main ท้ายสุด -->
+<script src="js/settings.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/backgrounds.js"></script>
+<script src="js/characters.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/story.js"></script>
+<script src="js/save.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
